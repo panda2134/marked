@@ -1,3 +1,5 @@
+const hljs = require('highlight.js')
+
 function getDefaults() {
   return {
     baseUrl: null,
@@ -5,8 +7,11 @@ function getDefaults() {
     gfm: true,
     headerIds: true,
     headerPrefix: '',
-    highlight: null,
-    langPrefix: 'language-',
+    highlight(code, lang) {
+      lang = hljs.getLanguage(lang) ? lang : 'plaintext'
+      return hljs.highlight(lang, code).value;
+    },
+    langPrefix: 'hljs language-',
     mangle: true,
     pedantic: false,
     renderer: null,

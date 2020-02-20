@@ -1,20 +1,19 @@
 /**
  * Copyright (c) 2011-2018, Christopher Jeffrey. (MIT License)
  * Edited to allow Element-UI style rendering
- * Also modified into ES6-style import
  */
 
-import Renderer from 'marked/src/Renderer'
-import Slugger from 'marked/src/Slugger'
-import InlineLexer from 'marked/src/InlineLexer'
-import TextRenderer from 'marked/src/TextRenderer'
-import { defaults } from 'marked/src/defaults'
-import { merge, unescape } from 'marked/src/helpers'
+const Renderer = require("./Renderer");
+const Slugger = require("./Slugger");
+const InlineLexer = require("./InlineLexer");
+const TextRenderer = require("./TextRenderer");
+let { defaults } = require("./defaults");
+let { merge, unescape } = require("./helpers");
 
 /**
  * Parsing & Compiling
  */
-export default class Parser {
+module.exports = class Parser {
   constructor(options) {
     this.tokens = [];
     this.token = null;

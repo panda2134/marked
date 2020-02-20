@@ -45,20 +45,14 @@ module.exports = class Renderer {
   };
 
   heading(text, level, raw, slugger) {
-    if (this.options.headerIds) {
-      return '<h'
-        + level
-        + ' id="'
-        + this.options.headerPrefix
-        + slugger.slug(raw)
-        + '">'
-        + text
-        + '</h'
-        + level
-        + '>\n';
-    }
-    // ignore IDs
-    return '<h' + level + '>' + text + '</h' + level + '>\n';
+    if(this.options.headerIds)
+      return `
+        <h${level} id="${anchor}">
+          <a href="#${anchor}" class="heading-anchor">#</a>
+          ${text}
+        </h${level}>
+      `;
+    else return `<h${level}>${text}</h${level}>`
   };
 
   hr() {
@@ -71,9 +65,9 @@ module.exports = class Renderer {
     return '<' + type + startatt + '>\n' + body + '</' + type + '>\n';
   };
 
-  listitem(text) {
-    return '<li>' + text + '</li>\n';
-  };
+  listitem(res, task) {
+    return `<li class="${task ? 'task-item' : ''}">` + res + '</li>'
+  }
 
   checkbox(checked) {
     return '<input '
@@ -120,8 +114,8 @@ module.exports = class Renderer {
   };
 
   codespan(text) {
-    return '<code>' + text + '</code>';
-  };
+    return '<code class="inline-code">' + text + '</code>'
+  }
 
   br() {
     return this.options.xhtml ? '<br/>' : '<br>';

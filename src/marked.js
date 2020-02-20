@@ -4,16 +4,22 @@
  * Also modified into ES6-style import
  */
 
-import Lexer from './Lexer'
-import Parser from './Parser'
-import Renderer from './Renderer'
-import TextRenderer from './TextRenderer'
-import InlineLexer from './InlineLexer'
-import Slugger from './Slugger'
-import { merge, checkSanitizeDeprecation, escape } from './helpers'
-import { defaults, getDefaults, changeDefaults } from './defaults'
-import hljs from 'highlight.js'
-import { getRandomUint32 } from 'assets/utils'
+const Lexer = require('./Lexer.js');
+const Parser = require('./Parser.js');
+const Renderer = require('./Renderer.js');
+const TextRenderer = require('./TextRenderer.js');
+const InlineLexer = require('./InlineLexer.js');
+const Slugger = require('./Slugger.js');
+const {
+  merge,
+  checkSanitizeDeprecation,
+  escape
+} = require('./helpers.js');
+const {
+  getDefaults,
+  changeDefaults,
+  defaults
+} = require('./defaults.js');
 
 /**
  * Marked
@@ -147,38 +153,5 @@ marked.Slugger = Slugger;
 
 marked.parse = marked;
 
-// load element-ui-related options
-
-let renderer = new marked.Renderer()
-
-renderer.heading = function(text, level) {
-  const anchor = text.toLowerCase().replace(/\s+/g, '-') + '-' + getRandomUint32()
-  return `
-    <h${level} id="${anchor}">
-      <a href="#${anchor}" class="heading-anchor">#</a>
-      ${text}
-    </h${level}>
-  `
-}
-
-renderer.listitem = function(res, task) {
-  return `<li class="${task ? 'task-item' : ''}">` + res + '</li>'
-}
-
-renderer.codespan = function(text) {
-  return '<code class="inline-code">' + text + '</code>'
-}
-
-const marked_defaults = {
-  renderer,
-  langPrefix: 'hljs language-',
-  highlight(code, lang) {
-    lang = hljs.getLanguage(lang) ? lang : 'plaintext'
-    return hljs.highlight(lang, code).value;
-  }
-};
-
-marked.setOptions(marked_defaults)
-
 // export
-export default marked
+module.exports = marked
