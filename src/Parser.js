@@ -1,17 +1,20 @@
-const Renderer = require('./Renderer.js');
-const Slugger = require('./Slugger.js');
-const InlineLexer = require('./InlineLexer.js');
-const TextRenderer = require('./TextRenderer.js');
-const { defaults } = require('./defaults.js');
-const {
-  merge,
-  unescape
-} = require('./helpers.js');
+/**
+ * Copyright (c) 2011-2018, Christopher Jeffrey. (MIT License)
+ * Edited to allow Element-UI style rendering
+ * Also modified into ES6-style import
+ */
+
+import Renderer from 'marked/src/Renderer'
+import Slugger from 'marked/src/Slugger'
+import InlineLexer from 'marked/src/InlineLexer'
+import TextRenderer from 'marked/src/TextRenderer'
+import { defaults } from 'marked/src/defaults'
+import { merge, unescape } from 'marked/src/helpers'
 
 /**
  * Parsing & Compiling
  */
-module.exports = class Parser {
+export default class Parser {
   constructor(options) {
     this.tokens = [];
     this.token = null;
@@ -159,20 +162,19 @@ module.exports = class Parser {
         const loose = this.token.loose;
         const checked = this.token.checked;
         const task = this.token.task;
+        let res
 
         if (this.token.task) {
           if (loose) {
             if (this.peek().type === 'text') {
               const nextToken = this.peek();
-              nextToken.text = this.renderer.checkbox(checked) + ' ' + nextToken.text;
+              nextToken.text = nextToken.text;
             } else {
               this.tokens.push({
                 type: 'text',
-                text: this.renderer.checkbox(checked)
+                text: ''
               });
             }
-          } else {
-            body += this.renderer.checkbox(checked);
           }
         }
 
@@ -181,7 +183,23 @@ module.exports = class Parser {
             ? this.parseText()
             : this.tok();
         }
-        return this.renderer.listitem(body, task, checked);
+
+        if (task) {
+          let checkedClass = checked ? 'is-checked' : ''
+          res = `
+          <label class="el-checkbox ${checkedClass}">
+            <span class="el-checkbox__input ${checkedClass}">
+              <span class="el-checkbox__inner"></span>
+            </span>
+            <span class="el-checkbox__label">
+                ${body}
+            </span>
+          </label>`
+        } else {
+          res = body
+        }
+
+        return this.renderer.listitem(res, task, checked);
       }
       case 'html': {
         // TODO parse inline content if parameter markdown=1
