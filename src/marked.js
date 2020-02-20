@@ -4,14 +4,14 @@
  * Also modified into ES6-style import
  */
 
-import Lexer from 'marked/src/Lexer'
+import Lexer from './Lexer'
 import Parser from './Parser'
-import Renderer from 'marked/src/Renderer'
-import TextRenderer from 'marked/src/TextRenderer'
-import InlineLexer from 'marked/src/InlineLexer'
-import Slugger from 'marked/src/Slugger'
-import { merge, checkSanitizeDeprecation, escape } from 'marked/src/helpers'
-import { defaults, getDefaults, changeDefaults } from 'marked/src/defaults'
+import Renderer from './Renderer'
+import TextRenderer from './TextRenderer'
+import InlineLexer from './InlineLexer'
+import Slugger from './Slugger'
+import { merge, checkSanitizeDeprecation, escape } from './helpers'
+import { defaults, getDefaults, changeDefaults } from './defaults'
 import hljs from 'highlight.js'
 import { getRandomUint32 } from 'assets/utils'
 
