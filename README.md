@@ -1,3 +1,7 @@
+A version of marked modified so that it is consistent with Element UI
+
+-------------
+
 <a href="https://marked.js.org">
   <img width="60px" height="60px" src="https://marked.js.org/img/logo-black.svg" align="right" />
 </a>
